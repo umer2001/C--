@@ -1,0 +1,40 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "build-active-file",
+      "command": "D:\\MinGW\\bin\\g++.exe",
+      "args": [
+        "-g",
+        "${fileDirname}\\${fileBasenameNoExtension}.cpp",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ],
+    },
+    {
+      "type": "shell",
+      "label": "run-compiled-file",
+      "command": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "problemMatcher": []
+    },
+    {
+      "label": "build-and-run",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "build-active-file",
+        "run-compiled-file"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
