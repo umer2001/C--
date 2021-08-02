@@ -3,17 +3,32 @@
 #include <iostream>
 using namespace std;
 
+/*
+Algorithm for factorial
 
-int main() {
+where "num" is the number of which we want to find factorial. 
 
-    int num,i,fact=1;
+1. declare num, i fact.
+2. set fact = 1.
+3. set i = 1.
+4. loop for i <= num.
+    fact = fact x i
+5. print final value of fact
+*/
 
-    cout<< "\n\n\t\t\t    =>\t"<<"Enter a number for factorial : ";
-    cin>>num;
+int main()
+{
 
-    for( i=1; i <= num; i++) {
-        fact = fact*i;
+    int num, i, fact = 1;
+
+    cout << "\n\n\t\t\t    =>\t"
+         << "Enter a number for factorial : ";
+    cin >> num;
+
+    for (i = 1; i <= num; i++)
+    {
+        fact = fact * i;
     }
-    cout<< "\n\t\t\t    =>\t"<<fact;
+    cout << "\n\t\t\t    =>\t" << fact;
     getche();
 }
