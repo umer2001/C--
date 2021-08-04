@@ -34,6 +34,8 @@ int lenth(string);
 
 string concatenate(char, char);
 
+string subString(string, int, int);
+
 string stringMultiplyer(string, int);
 
 void frequencyofChar(string, char);
@@ -61,6 +63,20 @@ string concatenate(char a[], char b[])
         sizeA++;
     }
     return a;
+}
+
+string subString(string a, int ip, int len)
+{
+    int i = ip, count = 0;
+    char dest[len - ip + 1];
+    while (i <= len)
+    {
+        dest[count] = a[i];
+        i++;
+        count++;
+    }
+    dest[count] = '\0';
+    return dest;
 }
 
 string stringMultiplyer(string a, int number)
@@ -103,6 +119,9 @@ int main()
 
     cout << "string A : " << s3Copy << ", string B : " << s4 << ", New string : " << concatenate(s3, s4) << endl;
     cout << "string A : " << s5Copy << ", string B : " << s6 << ", New string : " << concatenate(s5, s6) << endl;
+
+    // test substring
+    cout << "subString for \"I am Umer\" is \"" << subString("I am Umer", 5, 8) << "\" " << endl;
 
     // test stringMultiplyer
     cout << stringMultiplyer("wha", 5) << endl;
