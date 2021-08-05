@@ -3,7 +3,8 @@
     "files.associations": {
         "*.js": "javascriptreact",
         "iostream": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.loggingLevel": "Debug",
 }
