@@ -6,14 +6,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 /*----------------------------------Function Declaration------------------------------------*/
-void displayArray(int *);
+void displayArray(int *, int);
 void bubblesort(int *, int);
 
 /*----------------------------------Function Definations------------------------------------*/
-void displayArray(int array[])
+void displayArray(int array[], int arraySize)
 {
     cout << "\n";
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < arraySize; i++)
     {
         cout << array[i] << "\t";
     }
@@ -35,7 +35,7 @@ void bubblesort(int arr[], int arr_size)
                 arr[i + 1] = tmp;
                 swaped = true;
             }
-            displayArray(arr);
+            displayArray(arr, arr_size);
         }
         sorted++;
     } while (swaped);
@@ -48,6 +48,8 @@ int main()
     int average_arr[n] = {12, 11, 13, 5, 6};
     int best_arr[n] = {1, 2, 3, 4, 5};
 
+    int test_arr[12] = {44, 33, 11, 55, 77, 90, 40, 60, 99, 22, 88, 66};
+
     cout << "\nworst case"
          << "\n";
     bubblesort(worst_arr, n);
@@ -57,6 +59,10 @@ int main()
     cout << "\nbest case"
          << "\n";
     bubblesort(best_arr, n);
+
+    cout << "\nfinal test case"
+         << "\n";
+    bubblesort(test_arr, 12);
 }
 
 // 20 steps
