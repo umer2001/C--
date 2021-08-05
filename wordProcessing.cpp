@@ -95,13 +95,13 @@ string del(string a, int indexFrom, int len)
 
 int main()
 {
-    string testIns = "I am.", testDel = "Who am I?";
+    string testIns = "The founder of our country was Quaid-e-Azam", testDel = "Database Management Systems";
 
     // test ins
-    cout << "initial string : " << testIns << ", inserted \" John\" result : " << ins(testIns, 4, " John") << endl;
+    cout << "initial string : " << testIns << ", inserted \" and first Governorb \" result : " << ins(testIns, 12, "and first Governor ") << endl;
 
     // test del
-    cout << "initial string : " << testDel << ", delete 3 charecters from index \"0\" result : " << del(testDel, 0, 3) << endl;
+    cout << "initial string : " << testDel << ", delete 3 charecters from index \"9\" result : " << del(testDel, 9, 10) << endl;
 
     return 0;
 }
