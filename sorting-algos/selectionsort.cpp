@@ -36,6 +36,7 @@ void selectionsort(int arr[], int arr_size)
 {
     for (int i = 0; i < arr_size - 1; i++)
     {
+        // finding minimum
         int min = arr[i];
         int minIndex = i;
         for (int j = i + 1; j < arr_size; j++)
@@ -46,6 +47,7 @@ void selectionsort(int arr[], int arr_size)
                 minIndex = j;
             }
         }
+        // swapping
         arr[minIndex] = arr[i];
         arr[i] = min;
 
