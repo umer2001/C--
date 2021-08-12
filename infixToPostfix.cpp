@@ -13,7 +13,7 @@ class Stack
 {
 protected:
     int top;
-    char arr[MAX];
+    string arr[MAX];
 
 public:
     Stack()
@@ -26,6 +26,20 @@ public:
         if (top < MAX - 1)
         {
             top++;
+            string s(1, item);
+            arr[top] = s;
+        }
+        else
+        {
+            cout << "error: cant push stack overflowed.." << endl;
+        }
+    }
+
+    void push(string item)
+    {
+        if (top < MAX - 1)
+        {
+            top++;
             arr[top] = item;
         }
         else
@@ -34,7 +48,7 @@ public:
         }
     }
 
-    char pop()
+    string pop()
     {
         if (top >= 0)
         {
@@ -44,11 +58,11 @@ public:
         else
         {
             cout << "error: cant pop stack underflowed.. OR stack empty" << endl;
-            return '!';
+            return "!";
         }
     }
 
-    char peek()
+    string peek()
     {
         if ((top >= 0) && (top < MAX))
         {
@@ -106,6 +120,7 @@ int precedenceOf(char cherecter)
     }
     return -1;
 }
+
 bool isLeftToRight(int precedence)
 {
     if (precedence == 2)
@@ -117,6 +132,7 @@ bool isLeftToRight(int precedence)
         return true;
     }
 }
+
 string infixToPostfix(string infixExpresion)
 {
     int size = infixExpresion.size();
@@ -124,8 +140,9 @@ string infixToPostfix(string infixExpresion)
     string postFixExpression = "";
     for (int i = 0; i < size; i++)
     {
-
+        // if alphabets or numbers, add to result string
         if (
+            (infixExpresion[i] >= 48 && infixExpresion[i] <= 57) ||
             (infixExpresion[i] >= 65 && infixExpresion[i] <= 90) ||
             (infixExpresion[i] >= 97 && infixExpresion[i] <= 122))
         {
@@ -133,29 +150,40 @@ string infixToPostfix(string infixExpresion)
         }
         else
         {
+            // find the precedence Of the current operator
             const int precedenceOfCurrentChar = precedenceOf(infixExpresion[i]);
-            if (stack.isEmpty() || infixExpresion[i] == '(' || stack.peek() == '(')
+            // if stack is empty
+            // OR current operator is (
+            // OR last element pushed was (,
+            // Then push the current operator
+            if (stack.isEmpty() || infixExpresion[i] == '(' || stack.peek().at(0) == '(')
             {
                 stack.push(infixExpresion[i]);
             }
             else
             {
+                //  if current operator is ),
+                // Then pop all operators & add them to result string untill ( is in top of stack
                 if (infixExpresion[i] == ')')
                 {
-                    while (stack.peek() != '(' && !stack.isEmpty())
+                    while (stack.peek().at(0) != '(' && !stack.isEmpty())
                     {
                         postFixExpression += stack.pop();
                     }
                     stack.pop();
                 }
-                else if (precedenceOfCurrentChar == precedenceOf(stack.peek()))
+                // if the predence of current operator is equal to predence of operator on top of the stack,
+                // check associativity
+                else if (precedenceOfCurrentChar == precedenceOf(stack.peek().at(0)))
                 {
-                    // check associativity
+                    // if associativity is left to right
+                    // pop one operator and add it to result string & push the current operator
                     if (isLeftToRight(precedenceOfCurrentChar))
                     {
                         postFixExpression += stack.pop();
                         stack.push(infixExpresion[i]);
                     }
+                    // else just push the current operator
                     else
                     {
                         stack.push(infixExpresion[i]);
@@ -163,18 +191,23 @@ string infixToPostfix(string infixExpresion)
                 }
                 else
                 {
-                    if (precedenceOfCurrentChar > precedenceOf(stack.peek()))
+                    // if the predence of current operator is greater than predence of operator on top of the stack,
+                    // just push the current operator
+                    if (precedenceOfCurrentChar > precedenceOf(stack.peek().at(0)))
                     {
-                        // do some thing
                         stack.push(infixExpresion[i]);
                     }
                     else
                     {
-                        while (precedenceOfCurrentChar < precedenceOf(stack.peek()) && !stack.isEmpty())
+                        // while the predence of current operator is less than predence of operator on top of the stack,
+                        // just keep poping operator & adding to result string
+                        while (precedenceOfCurrentChar < precedenceOf(stack.peek().at(0)) && !stack.isEmpty())
                         {
                             postFixExpression += stack.pop();
                         }
-                        if (precedenceOfCurrentChar == precedenceOf(stack.peek()))
+                        // if the predence of current operator is equial to precedence of new top of stack
+                        // check associativity
+                        if (precedenceOfCurrentChar == precedenceOf(stack.peek().at(0)))
                         {
                             // check associativity
                             if (isLeftToRight(precedenceOfCurrentChar))
@@ -187,6 +220,7 @@ string infixToPostfix(string infixExpresion)
                                 stack.push(infixExpresion[i]);
                             }
                         }
+                        // else just push the current operator into stack
                         else
                         {
                             stack.push(infixExpresion[i]);
@@ -204,26 +238,59 @@ string infixToPostfix(string infixExpresion)
     return postFixExpression;
 }
 
-// TODO: comple the function below
-int evaluatePostfix(string postfixExpression)
+string evaluatePostfix(string postfixExpression)
 {
     Stack stack;
 
     for (int i = 0; i < postfixExpression.size(); i++)
     {
-        if ((postfixExpression[i] >= 65 && postfixExpression[i] <= 90) ||
+        if (
+            (postfixExpression[i] >= 48 && postfixExpression[i] <= 57) ||
+            (postfixExpression[i] >= 65 && postfixExpression[i] <= 90) ||
             (postfixExpression[i] >= 97 && postfixExpression[i] <= 122))
         {
             stack.push(postfixExpression[i]);
         }
         else
         {
-            char a = stack.pop();
-            char b = stack.pop();
-            cout << "infix : " << b << postfixExpression[i] << a << endl;
+
+            string a = stack.pop();
+            string b = stack.pop();
+            try
+            {
+                int aa = stoi(a);
+                int bb = stoi(b);
+
+                switch (postfixExpression[i])
+                {
+                case '+':
+                    stack.push(to_string(bb + aa));
+                    break;
+                case '-':
+                    stack.push(to_string(bb - aa));
+                    break;
+                case '/':
+                    stack.push(to_string(bb / aa));
+                    break;
+                case '*':
+                    stack.push(to_string(bb * aa));
+                    break;
+                case '^':
+                    stack.push(to_string(pow(bb, aa)));
+                    break;
+
+                default:
+                    break;
+                }
+            }
+            catch (std::invalid_argument &e)
+            {
+                stack.push(b + postfixExpression[i] + a);
+                cout << "infix : " << b << postfixExpression[i] << a << endl;
+            }
         }
     }
-    return 0;
+    return stack.peek();
 }
 
 int main()
@@ -232,6 +299,10 @@ int main()
     // Test cases
     string exp = "K+L-M*N+(O^P)*W/U/V*T+Q";
     evaluatePostfix(infixToPostfix(exp));
+
+    exp = "1+3+(4/2)";
+    cout << "postfix : " << infixToPostfix(exp) << endl;
+    cout << "value : " << evaluatePostfix(infixToPostfix(exp));
 
     return 0;
 }
