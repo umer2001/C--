@@ -6,69 +6,67 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct node
+/*----------------------------------Struct Declarations------------------------------------*/
+struct Node
 {
     int data;
-    node *next;
+    Node *next;
 };
 
-/*----------------------------------Function Declaration------------------------------------*/
-void displayArray(int *);
-void bubblesort(int *, int);
-void displayList(node *);
-node addNode(int, node *);
 /*----------------------------------Function Definations------------------------------------*/
-void displayList(node *base)
+void displayList(Node *n)
 {
-    node *tmp = base;
-    cout << "\n";
-    while (tmp->next != NULL)
+    while (n != NULL)
     {
-        cout << tmp->data << "\t";
-        tmp = tmp->next;
+        cout << n->data << " ";
+        n = n->next;
     }
 }
 
-node addNode(int data, node *baseNode)
+void adddNode(int data, Node *n)
 {
-    node newNode;
-    newNode.data = data;
-    newNode.next = NULL;
-    if (baseNode->next == NULL)
+    Node *newNode = NULL;
+    newNode = new Node();
+    newNode->data = data;
+    newNode->next = NULL;
+
+    while (n->next != NULL)
     {
-        baseNode->next = &newNode;
+        n = n->next;
     }
-    else
+    n->next = newNode;
+}
+
+Node *findInList(int data, Node *n)
+{
+    while (n->next != NULL)
     {
-        // cout << "data : " << data << endl;
-        node *tmp = baseNode;
-        cout << "address before : " << tmp->next << endl;
-        while (tmp->next != NULL)
+        if (n->data == data)
         {
-            cout << "address : " << tmp->next << endl;
-            cout << "data : " << tmp->data << endl;
-            tmp = tmp->next;
+            return n;
         }
-        cout << "address after: " << tmp->next << endl;
-        cout << "after data : " << tmp->data << endl;
-        tmp->next = &newNode;
+        n = n->next;
     }
-    return newNode;
+    return NULL;
 }
 
 int main()
 {
-    node *baseAddr;
+    Node *head = NULL;
 
-    node base;
-    base.data = 5;
-    base.next = NULL;
-    baseAddr = &base;
+    head = new Node();
 
-    addNode(10, baseAddr);
-    addNode(41, baseAddr);
-    // displayList(baseAddr);
+    head->data = 1;
+
+    adddNode(2, head);
+
+    adddNode(3, head);
+
+    adddNode(4, head);
+
+    displayList(head);
+
+    // Test cases
+    cout << "3 is at : " << findInList(3, head);
+    cout << "5 is at : " << findInList(5, head);
 }
-
-// 20 steps
-//reduced 10 steps by adding sorted count  10 steps
