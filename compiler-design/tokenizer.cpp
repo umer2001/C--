@@ -231,6 +231,7 @@ vector<string> splitByLines(string code)
             temp += code[i];
         }
     }
+    splited.push_back(temp);
     return splited;
 }
 
